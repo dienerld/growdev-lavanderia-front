@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom';
-import { Home } from './Home';
-import { Form } from './components/Form';
-import { FormSignup } from './components/FormSignup';
+import { Register } from '@pages/Register';
+import { Home } from '@pages/Home';
+import { Login } from '@pages/Login';
 
 function App() {
   return (
     <Routes>
-      <Route index element={<Form />} />
-      <Route path="/signup" element={<FormSignup />} />
+      <Route index element={<Login />} />
+      <Route path="/signup" element={<Register />} />
       <Route path="/home" element={<Home />} />
     </Routes>
   );

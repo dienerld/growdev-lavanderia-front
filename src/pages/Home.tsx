@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Card, TextField } from '@mui/material';
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
   createTaskAsyncThunk,
   getTaskAsyncThunk,
-} from './store/modules/userSlice';
+} from '../store/modules/userSlice';
 
 export function Home() {
   const user = useAppSelector((state) => state.user.user);

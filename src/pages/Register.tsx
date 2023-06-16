@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { createLoginAsyncThunk } from '../store/modules/userSlice';
 
@@ -25,7 +26,7 @@ O Zod consegue inferir um tipo baseado na forma que foi configurado o
 schema para validação, essa tipagem é a mesma que é feita manual.
 */
 type TCreateAccount = z.infer<typeof schemaCreateAccount>;
-export function FormSignup() {
+export function Register() {
   const dispatch = useAppDispatch();
   const {
     register,
@@ -157,14 +158,14 @@ export function FormSignup() {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?
+          Already a member?
           {' '}
-          <a
-            href="#"
+          <Link
+            to="/"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Start a 14 day free trial
-          </a>
+            Login
+          </Link>
         </p>
       </div>
     </div>
