@@ -1,10 +1,8 @@
 import { z } from 'zod';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../store/hooks';
-import { createLoginAsyncThunk } from '../store/modules/userSlice';
 
 const schemaCreateAccount = z.object({
   email: z.string().email(),
@@ -27,7 +25,6 @@ schema para validação, essa tipagem é a mesma que é feita manual.
 */
 type TCreateAccount = z.infer<typeof schemaCreateAccount>;
 export function Register() {
-  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
@@ -36,9 +33,9 @@ export function Register() {
     resolver: zodResolver(schemaCreateAccount),
   });
 
-  const onSubmit: SubmitHandler<TCreateAccount> = (data) => {
-    dispatch(createLoginAsyncThunk(data));
-  };
+  const onSubmit = handleSubmit((data) => {
+    console.log(data);
+  });
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -54,7 +51,7 @@ export function Register() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-6" onSubmit={onSubmit}>
           <div>
             <label
               htmlFor="email"

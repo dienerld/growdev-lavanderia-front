@@ -1,30 +1,18 @@
-import { Card, Typography, Button } from '@mui/material';
 import dayjs from 'dayjs';
-
-export interface IBooking {
-  id: number;
-  apartment: string
-  user: {
-    id: number;
-    name: string;
-  };
-  date: Date;
-  time: string;
-  machine: string;
-}
+import { Card, Typography, Button } from '@mui/material';
+import { IBooking } from '@store/modules/bookingsSlice';
+import { useAppSelector } from '@store/hooks';
 
 interface ICardBookingProps {
-  booking: IBooking;
+  booking: IBooking
+  ;
 }
 
 export function CardBooking({ booking }: ICardBookingProps) {
-  const user = {
-    id: 1,
-    name: 'Diener',
-  };
+  const user = useAppSelector((states) => states.user);
 
   return (
-    <Card className="p-4 flex flex-col gap-2">
+    <Card className="p-4 flex flex-col gap-2" elevation={2}>
       <Typography variant="body1">
         <strong>Morador: </strong>
         {`${booking.apartment} - ${booking.user.name}`}

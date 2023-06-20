@@ -1,16 +1,27 @@
 import { DatePickerValue } from '@components/DatePicker';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-  Box, Button, Checkbox, Container, TextField, Typography,
+  Box, Button, Container, FormControlLabel,
+  Radio, RadioGroup,  Typography,
 } from '@mui/material';
 import dayjs, { Dayjs } from 'dayjs';
-import { useForm, SubmitHandler, Controller } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 
+enum EMachine {
+  'A'='01',
+  'B'='02',
+}
+
+enum EHour {
+  MORNING = '06:00 a 12:00',
+  AFTERNOON = '12:00 a 18:00',
+}
+
 const formSchema = z.object({
-  name: z.string().min(3).max(255),
+  machine: z.nativeEnum(EMachine),
+  hour: z.nativeEnum(EHour),
   date: z.date().min(new Date(), `Não pode ser menor que ${dayjs(new Date()).format('DD/MM/YYYY')}`),
-  completed: z.boolean(),
 });
 type TFormInput = z.infer<typeof formSchema>
 
@@ -19,15 +30,17 @@ export function NewBooking() {
     handleSubmit, control, reset, formState: { errors }, getValues, setValue,
   } = useForm<TFormInput>({
     defaultValues: {
-      completed: false,
+      machine: EMachine.A,
+      hour: EHour.MORNING,
       date: new Date(),
     },
     resolver: zodResolver(formSchema),
   });
-  const onSubmit: SubmitHandler<TFormInput> = (data) => {
-    reset({ completed: false, date: new Date(), name: '' });
+
+  const onSubmit= handleSubmit((data) => {
     console.log(data);
-  };
+    reset({ date: new Date(), machine: EMachine.A,hour: EHour.AFTERNOON });
+  });
 
   return (
     <Container className="mt-4 flex flex-col items-center w-10/12 md:w-5/12">
@@ -35,27 +48,7 @@ export function NewBooking() {
       <Box
         component="form"
         className="mt-10 flex flex-col gap-4 w-full"
-        onSubmit={handleSubmit(onSubmit)}
       >
-
-        <label htmlFor="name">
-          <Controller
-            name="name"
-            control={control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                id="name"
-                autoComplete="off"
-                placeholder="Name"
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                fullWidth
-              />
-            )}
-          />
-        </label>
 
         <DatePickerValue
           value={getValues().date}
@@ -69,17 +62,57 @@ export function NewBooking() {
             )
           }
 
-        <label htmlFor="completed" className="flex items-center">
+        <label htmlFor="machine" className="flex items-center gap-4">
+          <Typography variant="h6" component="h2"><strong>Máquina: </strong></Typography>
           <Controller
-            name="completed"
+            name="machine"
             control={control}
             rules={{ required: true }}
-            render={({ field }) => <Checkbox {...field} id="completed" className="p-0" />}
+            render={({ field }) => (
+              <RadioGroup {...field} className="flex flex-row">
+                <FormControlLabel
+                  className="flex-1"
+                  value={EMachine.A}
+                  control={<Radio />}
+                  label={EMachine.A}
+                  />
+                <FormControlLabel
+                  className="flex-1"
+                  value={EMachine.B}
+                  control={<Radio />}
+                  label={EMachine.B}
+                />
+              </RadioGroup>
+            )}
           />
-          Completed
         </label>
 
-        <Button type="submit" variant="contained">Submit</Button>
+        <label htmlFor="hour" className="flex items-center gap-4">
+          <Typography variant="h6" component="h2"><strong>Hora: </strong></Typography>
+          <Controller
+            name="hour"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <RadioGroup {...field} className="flex flex-row">
+                <FormControlLabel
+                  className="flex-1"
+                  value={EHour.MORNING}
+                  control={<Radio />}
+                  label={EHour.MORNING}
+                  />
+                <FormControlLabel
+                  className="flex-1"
+                  value={EHour.AFTERNOON}
+                  control={<Radio />}
+                  label={EHour.AFTERNOON}
+                />
+              </RadioGroup>
+            )}
+          />
+        </label>
+
+        <Button type="button" variant="contained" onClick={onSubmit}>Submit</Button>
 
       </Box>
     </Container>

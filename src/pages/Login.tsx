@@ -3,8 +3,7 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { loginAsyncThunk } from '../store/modules/userSlice';
+import { useAppSelector } from '../store/hooks';
 
 const schemaLogin = z.object({
   email: z.string().email(),
@@ -18,7 +17,6 @@ schema para validação, essa tipagem é a mesma que é feita manual.
 */
 type TLogin = z.infer<typeof schemaLogin>;
 export function Login() {
-  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const {
     register,
@@ -33,12 +31,10 @@ export function Login() {
     if (user.id) {
       return navigate('/home');
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const onSubmit = handleSubmit((data) => {
     console.log(data);
-
-    dispatch(loginAsyncThunk(data));
   });
 
   return (
