@@ -14,15 +14,18 @@
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.1.0",
     "@mui/material": "^5.13.4",
+    "@mui/x-date-pickers": "^6.8.0",
     "@reduxjs/toolkit": "^1.9.5",
     "@tailwindcss/forms": "^0.5.3",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.8",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",
     "react-redux": "^8.0.7",
     "react-router-dom": "^6.11.2",
+    "vite-plugin-svgr": "^3.2.0",
     "zod": "^3.21.4"
   },
   "devDependencies": {

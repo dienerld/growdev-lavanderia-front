@@ -72,9 +72,7 @@ export const createTaskAsyncThunk = createAsyncThunk(
 
 const slice = createSlice({
   name: 'user',
-  initialState: {
-    user: {} as TUser,
-  },
+  initialState: {} as TUser,
   reducers: {},
   /**
    *   reducers retornando o objeto invés de alterar o state (conceito de imutabilidade)
@@ -86,20 +84,18 @@ const slice = createSlice({
 
       return {
         ...state,
-        user: {
-          name,
-          email,
-          id,
-          token: action.payload.token,
-          tasks: [],
-        },
+        name,
+        email,
+        id,
+        token: action.payload.token,
+        tasks: [],
       };
     });
 
     builder.addCase(getTaskAsyncThunk.fulfilled, (state, action) => ({
       ...state,
       user: {
-        ...state.user,
+        ...state,
         tasks: action.payload.tasks,
       },
     }));
@@ -107,8 +103,8 @@ const slice = createSlice({
     builder.addCase(createTaskAsyncThunk.fulfilled, (state, action) => ({
       ...state,
       user: {
-        ...state.user,
-        tasks: [...state.user.tasks, action.payload],
+        ...state,
+        tasks: [...state.tasks, action.payload],
       },
     }));
 

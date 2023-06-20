@@ -19,15 +19,18 @@
       "@pages/*": ["./src/pages/*"],
       "@store/*": ["./src/store/*"],
       "@service/*": ["./src/service/*"],
-      "@assets/*": ["./src/assets/*"]
+      "@assets/*": ["./src/assets/*"],
+      "@layouts/*": ["./src/layouts/*"]
     },
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "types": ["vite-plugin-svgr/client"]
   },
-  "include": ["src"],
+  // "files": ["./src/custom.d.ts"],
+  "include": ["src", "src/pages/.tsx", "src/pages/.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

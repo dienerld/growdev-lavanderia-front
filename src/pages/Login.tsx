@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -19,7 +19,7 @@ schema para validação, essa tipagem é a mesma que é feita manual.
 type TLogin = z.infer<typeof schemaLogin>;
 export function Login() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.user);
+  const user = useAppSelector((state) => state.user);
   const {
     register,
     handleSubmit,
@@ -35,11 +35,11 @@ export function Login() {
     }
   }, [user]);
 
-  const onSubmit: SubmitHandler<TLogin> = (data) => {
+  const onSubmit = handleSubmit((data) => {
     console.log(data);
 
     dispatch(loginAsyncThunk(data));
-  };
+  });
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -55,7 +55,7 @@ export function Login() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+        <form className="space-y-6" onSubmit={onSubmit}>
           <div>
             <label
               htmlFor="email"
